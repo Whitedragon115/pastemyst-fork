@@ -7,7 +7,7 @@ gitlab:
     secret: <client secret>
 
 # has to begin with the protocol and end with a trailing /
-hostname: https://codewhitedragon.life/
+hostname: https://code.whitedragon.life/
 
 # is pastemyst hosted on a https enabled host
 https_enabled: false
