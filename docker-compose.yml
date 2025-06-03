@@ -22,3 +22,4 @@ services:
       - 8007:443
     volumes:
       - .:/app
+
