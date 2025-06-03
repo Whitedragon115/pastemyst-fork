@@ -1,0 +1,24 @@
+html.fury
+{
+    --color-nano: #1A1A1A;
+    --color-nanonotsolight: #2A2A2A;
+    --color-nanolight: #2C2C2C;
+    --color-nanolightlight: #7F8C8D;
+    --color-white: #D5DBDB;
+    --color-mystge: #F39C12;
+    --color-mystlue: #3498DB;
+    --color-mysted: #E74C3C;
+    --color-mysteen: #52C41A;
+
+    --font-size-code: 1rem;
+    --font-size-small: 1rem;
+    --font-size-normal: 1.2rem;
+    --font-size-medium: 1.5rem;
+    --font-size-big: 3rem;
+
+    --border-radius: 0.3rem;
+
+    --break-small: 640px;
+
+    --font-stack: 'UbuntuMono', monospace;
+}

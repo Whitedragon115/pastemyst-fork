@@ -10,6 +10,7 @@ footer
     .theme
         label(for="theme") theme:
         select(name="theme", id="theme-picker")
+            option(value="fury") fury
             option(value="myst") myst
             option(value="catppuccin") catppuccin
             option(value="darkplus") dark+
