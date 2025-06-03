@@ -11,9 +11,9 @@
             include components/dropdown
                 block options
                     - import std.conv : to;
-                    - import pastemyst.data : languages;
+                    - import pastemyst.data : languages;  // 這裡匯入語言資料
                     input.hidden(type="text", name="language")
-                    - foreach (ulong i, lang; languages)
+                    - foreach (ulong i, lang; languages)  // 遍歷語言清單
                         - if (!autodetect && lang["name"] == "Autodetect")
                             - continue;
                         - bool checked = false;
