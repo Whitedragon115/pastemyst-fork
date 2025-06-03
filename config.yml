@@ -15,7 +15,7 @@ https_enabled: false
 # shows a message at the top of the page to
 # indicate that this instance is a development one
 # and users shouldnt expect it to always work
-development_instance: true
+development_instance: false
 
 # where to host pastemyst
 host_ip: 0.0.0.0
