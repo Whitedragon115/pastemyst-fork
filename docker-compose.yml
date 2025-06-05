@@ -1,39 +1,29 @@
 version: "3.8"
-
 services:
   db:
     image: mongo:4.4.1
-    container_name: pastemyst_mongodb
     volumes:
       - mongo_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     restart: unless-stopped
-    networks:
-      - pastemyst_network
 
   app:
-    container_name: pastemyst_app
+    pull_policy: build
     build:
       context: ./
     restart: unless-stopped
     depends_on:
       - db
-    environment:
-      - MONGO_URL=mongodb://root:root@db:27017/pastemyst
+    links:
+      - db:db.docker.local
     ports:
-      - "8007:80"
+      - 8007:80
     volumes:
       - .:/app
-    networks:
-      - pastemyst_network
 
 volumes:
   mongo_data:
     driver: local
-
-networks:
-  pastemyst_network:
-    driver: bridge
 
