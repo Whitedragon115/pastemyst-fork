@@ -10,7 +10,7 @@ gitlab:
 hostname: https://code.whitedragon.life/
 
 # is pastemyst hosted on a https enabled host
-https_enabled: false
+https_enabled: true
 
 # shows a message at the top of the page to
 # indicate that this instance is a development one
