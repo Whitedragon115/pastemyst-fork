@@ -56,6 +56,5 @@ set the token, you can get your token on your pastemyst profile settings page. o
 pastry --set-token <YOUR_TOKEN>
 
 # create private paste
-pastry file1.txt -p
+pastry file.txt -p
 ```
-
