@@ -197,11 +197,9 @@ private string autodetectLanguage(string pasteId, Pasty pasty) @safe
 
     write(filename, pasty.code);
 
-    string lang = "Plain Text";
-
-    try
+    string lang = "Plain Text";    try
     {
-        auto res = execute(["pastemyst-autodetect", filename]);
+        auto res = execute(["guesslang-autodetect", filename]);
 
         if (res.status == 0)
         {

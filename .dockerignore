@@ -1,2 +1,50 @@
 # database data
 /db-data/
+
+# Git files
+.git/
+.gitignore
+
+# Build artifacts
+*.exe
+*.o
+*.obj
+*.so
+*.dll
+bin/
+build/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Test files (but keep test scripts)
+test_*.py
+test_*.d
+debug.go
+final-test.py
+
+# Node modules if any
+node_modules/
+
+# Documentation (but keep essential ones)
+CHANGELOG.md
+VERSION_FIX_REPORT.md
+
+# Old autodetect tool (we're using guesslang-go now)
+pastemyst-autodetect/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

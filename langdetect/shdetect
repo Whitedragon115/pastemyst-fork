@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# 簡化的 Docker 建構和部署腳本
+
+set -e
+
+echo "=== Pastemyst Guesslang Docker 部署 ==="
+echo ""
+
+# 檢查是否在正確的目錄
+if [ ! -f "docker-compose.yml" ]; then
+    echo "錯誤: 請在包含 docker-compose.yml 的目錄中執行此腳本"
+    exit 1
+fi
+
+# 檢查 Docker
+if ! command -v docker &> /dev/null; then
+    echo "錯誤: Docker 未安裝"
+    exit 1
+fi
+
+if ! command -v docker-compose &> /dev/null; then
+    echo "錯誤: docker-compose 未安裝"
+    exit 1
+fi
+
+echo "✓ Docker 環境檢查完成"
+
+# 清理舊的容器和映像（可選）
+read -p "是否要清理舊的容器和映像？(y/N): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "清理舊的容器和映像..."
+    docker-compose down --rmi all --volumes --remove-orphans 2>/dev/null || true
+    docker system prune -f
+fi
+
+# 建構映像
+echo ""
+echo "建構 Docker 映像（這可能需要幾分鐘）..."
+docker-compose build --no-cache
+
+# 啟動服務
+echo ""
+echo "啟動服務..."
+docker-compose up -d
+
+# 等待服務啟動
+echo "等待服務啟動..."
+sleep 20
+
+# 顯示狀態
+echo ""
+echo "服務狀態:"
+docker-compose ps
+
+# 簡單測試
+echo ""
+echo "執行基本測試..."
+echo "def test(): print('Hello from Python')" > /tmp/docker_test.py
+if docker-compose exec -T app guesslang-autodetect /dev/stdin < /tmp/docker_test.py > /dev/null 2>&1; then
+    echo "✓ guesslang-autodetect 正常工作"
+else
+    echo "⚠ guesslang-autodetect 可能有問題，請檢查日誌"
+fi
+rm -f /tmp/docker_test.py
+
+# 檢查 Web 服務
+echo ""
+echo "檢查 Web 服務..."
+if curl -f -s http://localhost:8007 > /dev/null; then
+    echo "✓ pastemyst 網站可以訪問: http://localhost:8007"
+else
+    echo "⚠ pastemyst 網站暫時無法訪問，服務可能還在啟動中"
+fi
+
+echo ""
+echo "=== 部署完成 ==="
+echo ""
+echo "服務管理命令:"
+echo "  查看日誌: docker-compose logs -f app"
+echo "  停止服務: docker-compose down"
+echo "  重啟服務: docker-compose restart"
+echo "  查看狀態: docker-compose ps"
+echo ""
+echo "網站地址: http://localhost:8007"
+echo ""
+echo "如需完整測試，請執行: ./test-docker-deployment.sh"
+echo ""
