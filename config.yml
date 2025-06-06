@@ -8,9 +8,11 @@ gitlab:
 
 # has to begin with the protocol and end with a trailing /
 hostname: https://code.whitedragon.life/
+# hostname: http://localhost:4001/
 
 # is pastemyst hosted on a https enabled host
 https_enabled: true
+# https_enabled: false
 
 # shows a message at the top of the page to
 # indicate that this instance is a development one
@@ -20,6 +22,7 @@ development_instance: false
 # where to host pastemyst
 host_ip: 0.0.0.0
 host_port: 80
+# host_port: 4001
 
 # mongo connection string
 mongo_connection: root:root@db.docker.local

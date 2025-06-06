@@ -6,10 +6,10 @@ footer
     - string year = Clock.currTime().year.to!string();
     .copyright
         p copyright &copy; #[a(href="https://github.com/codemyst", target="_blank") codemyst] #{year}
-        p contact: code at myst.rs
     .theme
         label(for="theme") theme:
         select(name="theme", id="theme-picker")
+            option(value="bit-fury") bit-fury
             option(value="fury") fury
             option(value="myst") myst
             option(value="catppuccin") catppuccin

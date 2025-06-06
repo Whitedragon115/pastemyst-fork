@@ -2,13 +2,13 @@ nav
     ul
         li
             a(href="/") home
+        // li
+        //     - if(session.loggedIn) 
+        //         a(href="/user/profile") profile
+        //     - else
+        //         a(href="/login") login
         li
-            - if(session.loggedIn) 
-                a(href="/user/profile") profile
-            - else
-                a(href="/login") login
-        li
-            a(href="https://github.com/codemyst/pastemyst", target="_blank") github
+            a(href="/legal") legal
         li
             a(href="/api-docs") api
         li
@@ -16,7 +16,7 @@ nav
         li
             a(href="/changelog") changelog
         li
-            a(href="/legal") legal
+            a(href="https://github.com/codemyst/pastemyst", target="_blank") github
 
     a.tooltip.wordwrap
         i.fas.fa-exchange-alt

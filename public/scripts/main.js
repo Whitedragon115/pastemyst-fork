@@ -2,7 +2,7 @@ import { getWordwrap, getFullwidth } from "./helpers/options.js";
 
     if (localStorage.getItem("theme") === null)
     {
-        localStorage.setItem("theme", "myst");
+        localStorage.setItem("theme", "bit-fury");
     }
     else
     {

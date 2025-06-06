@@ -9,7 +9,7 @@
 
     p.description
         | a simple website for sharing code.
-        | version #{getVersion()} (#[a(href="/changelog") changelog]).
+        | this site is not built by me, check the #[a(href="https://github.com/codemyst/pastemyst") orignal github project].
 
     - if (config.devInstance)
         p.warning

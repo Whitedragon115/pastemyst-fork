@@ -39,6 +39,10 @@ public void main()
 	import pastemyst.paste : deleteExpiredPastes;
     import pastemyst.auth : deleteExpiredSessions;
     import pastemyst.data : config;
+    import vibe.core.log : setLogLevel, LogLevel;
+
+    // 設定日誌級別為 info，確保 logInfo 會被輸出
+    setLogLevel(LogLevel.info);
 
 	URLRouter router = new URLRouter();
 

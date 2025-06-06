@@ -173,12 +173,12 @@ public EncryptedPaste createEncryptedPaste(string title, string expiresIn, Pasty
  + tries to autodetect a language, will try and get the language from the pasty title first
  +/
 private string autodetectLanguage(string pasteId, Pasty pasty) @safe
-{
-    import std.file : write, remove, exists, mkdir;
-    import std.path : extension;
-    import std.process : execute;
-    import std.string : strip;
+{    import std.path : extension;
     import pastemyst.data : languages;
+    import vibe.http.client : requestHTTP, HTTPMethod;
+    import vibe.data.json : Json, parseJsonString;
+    import std.conv : to;
+    import vibe.core.log : logInfo, logError;
 
     // check if the language can be gotten from the extension
     auto ext = extension(pasty.title);
@@ -188,29 +188,57 @@ private string autodetectLanguage(string pasteId, Pasty pasty) @safe
         if (extLang !is null) return extLang;
     }
 
-    if (!exists("tmp/"))
-    {
-        mkdir("tmp");
-    }
-
-    string filename = "tmp/" ~ pasteId ~ "-" ~ pasty.id ~ "-autodetect";
-
-    write(filename, pasty.code);
-
     string lang = "Plain Text";
 
     try
     {
-        auto res = execute(["pastemyst-autodetect", filename]);
+        // 創建 API 請求的 JSON 資料
+        Json requestData = Json.emptyObject;
+        requestData["text"] = pasty.code;
+        requestData["verbose"] = false;
+        requestData["fineTune"] = false;
+        requestData["expectedRelativeConfidence"] = 0.2;
 
-        if (res.status == 0)
-        {
-            lang = res.output.strip();
-        }
+        // 呼叫語言檢測 API
+        requestHTTP("http://192.168.0.123:8787/guess",
+            (scope req) {
+                req.method = HTTPMethod.POST;
+                req.headers["Content-Type"] = "application/json";
+                req.writeJsonBody(requestData);
+            },
+            (scope res) {
+                if (res.statusCode == 200)
+                {
+                    auto responseJson = res.readJson();
+                    if ("languageId" in responseJson)
+                    {
+                        string langId = responseJson["languageId"].get!string;
+                        // 嘗試將 languageId 轉換為完整的語言名稱
+                        auto fullLangName = getLanguageName(langId);
+                        if (fullLangName !is null)
+                        {
+                            lang = fullLangName;
+                        }
+                        else
+                        {
+                            lang = langId;
+                        }
+                    }
+                }
+            }
+        );    }
+    catch(Exception e) {
+        // 如果 API 呼叫失敗，返回預設值
+        logError("Language detection API failed: %s", e.msg);
+        lang = "Plain Text";
     }
-    catch(Exception) {}
 
-    remove(filename);
-
+    logInfo("Autodetected language for paste %s: %s", pasteId, lang);
+    
+    // 備用方案：如果需要使用 writeln，請加上手動刷新
+    // import std.stdio : writeln, stdout;
+    // writeln("Autodetected language for paste ", pasteId, ": ", lang);
+    // stdout.flush(); // 強制刷新輸出緩衝區
+    
     return lang;
 }
